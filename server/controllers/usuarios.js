@@ -95,13 +95,13 @@ let eliminar_usuario = (documento) => {
 
 let editar_usuario = async (usuario, documento) => {
   let _service = new ServicePG();
-  let sql = `UPDATE usuarios set tipo_documento = $1
+  let sql = `UPDATE usuarios set tipo_documento = $1,
                 nombre = $2,
                  apellidos = $3,
                  celular = $4,
                  correo = $5,
-                 rol = $6,
-                 WHERE documento= $7`;
+                 rol = $6
+                 WHERE documento = $7`;
 
   let values = [
     usuario.tipo_documento,

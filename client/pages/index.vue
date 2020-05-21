@@ -15,15 +15,11 @@
     <div>
       <b-navbar type="dark" variant="dark">
         <b-navbar-nav>
-          <b-nav-item href="#">Home</b-nav-item>
+          <b-nav-item href="#">Usuarios</b-nav-item>
+          <b-nav-item href="#">Motos</b-nav-item>
+          <b-nav-item href="#">Mantenmientos</b-nav-item>
+          <b-nav-item href="#">Consolidado</b-nav-item>
 
-          <!-- Navbar dropdowns -->
-          <b-nav-item-dropdown text="Lang" right>
-            <b-dropdown-item href="#">Usuarios</b-dropdown-item>
-            <b-dropdown-item href="#">Motos</b-dropdown-item>
-            <b-dropdown-item href="#">Mantenmientos</b-dropdown-item>
-            <b-dropdown-item href="#">FA</b-dropdown-item>
-          </b-nav-item-dropdown>
 
           <b-nav-item-dropdown text="User" right>
             <b-dropdown-item href="#">Account</b-dropdown-item>
@@ -35,4 +31,3 @@
   </div>
 </template>
 <style src="../css/home.css" />
-
