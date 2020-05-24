@@ -9,25 +9,21 @@
       ></b-img>
 
       <div class="title">
-        ADMINISTRADOR
+        MI MOTO
       </div>
     </b-navbar>
     <div>
       <b-navbar type="dark" variant="dark">
         <b-navbar-nav>
-          <b-nav-item href="#">Usuarios</b-nav-item>
-          <b-nav-item href="#">Motos</b-nav-item>
-          <b-nav-item href="#">Mantenmientos</b-nav-item>
-          <b-nav-item href="#">Consolidado</b-nav-item>
-
-
-          <b-nav-item-dropdown text="User" right>
-            <b-dropdown-item href="#">Account</b-dropdown-item>
-            <b-dropdown-item href="#">Settings</b-dropdown-item>
-          </b-nav-item-dropdown>
+          <b-nav-item :to="{ name: 'usuarios' }">Usuarios</b-nav-item>
+          <b-nav-item :to="{ name: 'motos' }">Motos</b-nav-item>
+          <b-nav-item :to="{ name: 'mantenimientos' }">Mantenmientos</b-nav-item>
+          <b-nav-item :to="{ name: 'consolidados' }" v-show="showAdmin">Consolidados</b-nav-item>
         </b-navbar-nav>
       </b-navbar>
     </div>
   </div>
+
 </template>
+<script src="../assets/JS/home.js" />
 <style src="../css/home.css" />

@@ -1,43 +1,29 @@
 <template>
   <div>
     <div>
-      <b-navbar toggleable type="light" variant="faded">
-        <b-img
-          src="https://redunete.net/wp-content/uploads/2019/02/logo-blanco-Udem-700x300.jpg"
-          fluid
-          alt="Fluid image"
-          width="200px"
-        ></b-img>
-
-        <div class="title">
-          MI MOTO
-        </div>
-
-        <b-navbar-toggle target="navbar-toggle-collapse">
-          <a href="home">
-            <b-icon icon="house-fill" variant="danger" font-scale="2"></b-icon>
-          </a>
-        </b-navbar-toggle>
+      <b-navbar type="light" variant="dark">
+        <a href="home">
+          <b-img
+            src="../images/motologo.png"
+            fluid
+            alt="Fluid image"
+            width="80px"
+          ></b-img>
+        </a>
+        <a href="home">
+          <div class="title">
+            MI MOTO
+          </div>
+        </a>
       </b-navbar>
-
       <div>
-        <b-navbar toggleable="md" type="dark" variant="danger">
-          <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-          <b-collapse is-nav id="nav_collapse">
-            <b-navbar-nav>
-              <b-nav-item :to="{ name: 'formUsers' }" active
-                >Gestión de Usuarios</b-nav-item
-              >
-              <b-nav-item :to="{ name: 'roles' }">Gestión de Roles</b-nav-item>
-              <b-nav-item :to="{ name: 'modules' }"
-                >Gestión de Módulos</b-nav-item
-              >
-              <b-nav-item :to="{ name: 'permissions' }"
-                >Gestión de Permisos</b-nav-item
-              >
-            </b-navbar-nav>
-          </b-collapse>
+        <b-navbar type="dark" variant="warning">
+          <ul>
+            <li><div class="txtNavActive">Usuarios</div></li>
+            <li><a href="motos">Motos</a></li>
+            <li><a href="mantenimientos">Mantenimientos</a></li>
+            <li><a href="consolidados">Consolidados</a></li>
+          </ul>
         </b-navbar>
       </div>
     </div>
@@ -46,7 +32,7 @@
       <b-container>
         <b-col>
           <div class="subTitle">
-            <b-icon icon="person" font-scale="2"></b-icon>
+            <b-icon icon="person-fill" font-scale="1.8"></b-icon>
             <div class="hi">**</div>
 
             {{ message }}
@@ -54,27 +40,30 @@
           <br />
 
           <b-form action="javascript:void(0)" @submit="crear_usuario()">
-            <b-form-group label="Tipo de documento">
+            <b-form-group @submit.stop.prevent label="Tipo de documento">
               <b-form-select
                 v-model="usuario.tipo_documento"
-                :options="lista_documento"
+                :options="lista_documentos"
               ></b-form-select>
+              <b-form-invalid-feedback :state="validar_tipo_documento"
+                >Campo obligatorio</b-form-invalid-feedback
+              >
             </b-form-group>
 
             <b-form-group
               @submit.stop.prevent
               label="Identificación"
-              label-for="id"
+              label-for="documento"
             >
               <b-form-input
                 class="form-control"
-                v-model="usuario.id"
+                v-model="usuario.documento"
                 type="number"
-                placeholder="Ingrese su identificación"
-                id="id"
+                placeholder="Ingrese su número de documento"
+                id="documento"
               />
 
-              <b-form-invalid-feedback :state="validar_id"
+              <b-form-invalid-feedback :state="validar_documento"
                 >Campo obligatorio</b-form-invalid-feedback
               >
               <b-form-invalid-feedback :state="si_existe" v-show="show"
@@ -102,7 +91,7 @@
             >
               <b-form-input
                 class="form-control"
-                v-model="usuario.apellido"
+                v-model="usuario.apellidos"
                 placeholder="Ingrese su apellido"
                 id="apellido"
               />
@@ -118,7 +107,7 @@
                 placeholder="Ingrese su número de celular"
                 id="celular"
               />
-              <b-form-invalid-feedback :state="validar_nombre"
+              <b-form-invalid-feedback :state="validar_celular"
                 >Campo obligatorio</b-form-invalid-feedback
               >
             </b-form-group>
@@ -140,7 +129,12 @@
               >
             </b-form-group>
 
-            <b-form-group label="Contraseña" label-for="clave">
+            <b-form-group
+              v-show="!inEdition"
+              label="Contraseña"
+              label-for="clave"
+              @submit.stop.prevent
+            >
               <b-form-input
                 class="form-control"
                 v-model="usuario.clave"
@@ -153,20 +147,23 @@
               >
             </b-form-group>
 
-            <b-form-group label="Rol">
+            <b-form-group label="Rol" @submit.stop.prevent>
               <b-form-select
                 v-model="usuario.rol"
                 :options="lista_roles"
               ></b-form-select>
+              <b-form-invalid-feedback :state="validar_rol"
+                >Campo obligatorio</b-form-invalid-feedback
+              >
             </b-form-group>
 
-            <b-button type="submit" block variant="danger" v-if="!inEdition"
+            <b-button type="submit" block variant="warning" v-if="!inEdition"
               >Crear usuario</b-button
             >
             <b-button
               @click="actualizar_usuario()"
               block
-              variant="danger"
+              variant="warning"
               v-else
               >Actualizar usuario</b-button
             >
@@ -176,22 +173,32 @@
           <b-button
             type="submit"
             block
-            variant="danger"
+            variant="warning"
             @click="showTable = !showTable"
             >Lista de Usuarios</b-button
           >
           <br />
 
-          <b-table striped hover :items="lista_usuarios" v-show="showTable">
+          <b-table
+            striped
+            hover
+            :items="lista_usuarios"
+            v-show="showTable"
+            :head-variant="'dark'"
+          >
             <template v-slot:cell(acciones)="row">
               <b-button
                 size="sm"
                 @click="cargar_usuario(row)"
                 class="mr-2"
-                variant="danger"
+                variant="warning"
                 >Modificar</b-button
               >
-              <b-button size="sm" @click="eliminar_usuario(row)" class="mr-2"
+              <b-button
+                variant="outline-warning"
+                size="sm"
+                @click="eliminar_usuario(row)"
+                class="mr-2"
                 >Eliminar</b-button
               >
             </template>
@@ -205,4 +212,4 @@
 </template>
 
 <script src="../assets/JS/usuarios.js" />
-<style src="../css/home.css" />
+<style src="../css/forms.css" />

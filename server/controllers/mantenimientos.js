@@ -48,29 +48,46 @@ let consultar_mantenimientos = async () => {
   return respuesta;
 };
 
-let consultar_mantenimiento = async (id) => {
+let consultar_mantenimiento = async (mantenimiento) => {
   let _service = new ServicePG();
-  let sql = `SELECT * FROM mantenimientos WHERE id = '${id}'`;
-  let respuesta = await _service.runSql(sql);
+  let sql = `SELECT * FROM mantenimientos WHERE id_mecanico = $1 AND
+                                                placa = $2 AND
+                                                fecha = $3`;
+  let values = [
+    mantenimiento.id_mecanico,
+    mantenimiento.placa,
+    mantenimiento.fecha,
+  ];
+  let respuesta = await _service.runSql(sql, values);
   return respuesta;
 };
 
-let eliminar_mantenimiento = (id) => {
+let eliminar_mantenimiento = (mantenimiento) => {
   let _service = new ServicePG();
-  let sql = `DELETE FROM mantenimientos WHERE id= $1`;
-  let values = [id];
+  console.log(mantenimiento + " eliminar");
+  let sql = `DELETE FROM mantenimientos WHERE id_mecanico = $1 AND
+                                              placa = $2 AND
+                                              fecha = $3`;
+  let values = [
+    mantenimiento.id_mecanico,
+    mantenimiento.placa,
+    mantenimiento.fecha,
+  ];
   let respuesta = _service.runSql(sql, values);
   return respuesta;
 };
 
-let editar_mantenimiento = async (mantenimiento, id) => {
+let editar_mantenimiento = async (mantenimiento) => {
+  console.log(mantenimiento);
   let _service = new ServicePG();
   let sql = `UPDATE mantenimientos set id_mecanico = $1,
                  placa = $2,
                  fecha = $3,
                  trabajos_realizados = $4,
                  horas_invertidas = $5
-                WHERE id = $6`;
+                WHERE id_mecanico = $6 AND 
+                      placa = $7 AND
+                      fecha = $8`;
 
   let values = [
     mantenimiento.id_mecanico,
@@ -78,7 +95,9 @@ let editar_mantenimiento = async (mantenimiento, id) => {
     mantenimiento.fecha,
     mantenimiento.trabajos_realizados,
     mantenimiento.horas_invertidas,
-    id
+    mantenimiento.id_mecanico_temp,
+    mantenimiento.placa_temp,
+    mantenimiento.fecha_temp,
   ];
   let respuesta = await _service.runSql(sql, values);
   return respuesta;

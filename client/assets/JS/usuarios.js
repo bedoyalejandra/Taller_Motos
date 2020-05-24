@@ -16,36 +16,46 @@ export default {
       inEdition: false,
       showTable: false,
       show: false,
+      showAdmin: true,
       validacion_actualizar: "",
       token: "",
       url: "",
       usuario: {
         tipo_documento: "",
-        id: "",
+        documento: "",
         nombre: "",
-        apellido: "",
-        edad: 0,
+        apellidos: "",
+        celular: "",
         correo: "",
-        clave: "",
-        ciudad: "",
-        ocupacion: null,
         rol: 0,
+        clave: "",
         acciones: true,
-        primera_vez: true,
       },
       lista_usuarios: [{}],
       lista_roles: [{ value: null, text: "Seleccione un rol", disabled: true }],
+      lista_documentos: [
+        {
+          value: null,
+          text: "Seleccione el tipo de documento",
+          disabled: true,
+        },
+      ],
     };
   },
   created() {
     this.guardar_token();
     this.mostrar_roles();
+    this.mostrar_tipos_documentos();
     this.mostrar_usuarios();
   },
   computed: {
-    validar_id() {
+    validar_tipo_documento() {
+      return this.usuario.tipo_documento.length > 0;
+    },
+
+    validar_documento() {
       if (this.validacion_actualizar) return true;
-      return this.usuario.id.length > 0;
+      return this.usuario.documento.length > 0;
     },
 
     validar_nombre() {
@@ -53,15 +63,19 @@ export default {
     },
 
     validar_apellido() {
-     return this.usuario.apellido.length > 0;
+      return this.usuario.apellidos.length > 0;
     },
 
-    validar_edad() {
-      return this.usuario.edad >= 0;
+    validar_celular() {
+      return this.usuario.celular.length > 0;
     },
 
     validar_correo() {
       return this.usuario.correo.length > 0;
+    },
+
+    validar_rol() {
+      return this.usuario.rol != 0;
     },
 
     validar_clave() {
@@ -72,9 +86,9 @@ export default {
       if (this.validacion_actualizar) return true;
       for (let i in this.lista_usuarios) {
         var tem = this.lista_usuarios[i];
-        if (this.usuario.id != "") {
+        if (this.usuario.documento != "") {
           this.show = true;
-          if (tem.id == this.usuario.id) {
+          if (tem.documento == this.usuario.documento) {
             estado = false;
           }
         }
@@ -89,32 +103,22 @@ export default {
         this.token = localStorage.getItem("token");
       }
     },
-    
+
     cargar_pagina() {
       let url = config.url_api + "verify";
       let token = localStorage.getItem("token");
       this.token = token;
-
       axios
-        .post(
-          url,
-          {
-            Modulo: "Gestión de Usuarios",
-          },
-          { headers: { token: token } }
-        )
-        .then((response) => {
-          console.log(response);
-        })
+        .get(url, { headers: { token } })
+        .then((response) => {})
         .catch((error) => {
           console.log(error);
-          this.$router.push("/login");
         });
     },
-    
+
     mostrar_usuarios() {
       axios
-        .get(this.url + "view-users", {
+        .get(this.url + "vista-usuarios", {
           headers: { token: this.token },
         })
         .then((response) => {
@@ -147,33 +151,52 @@ export default {
         });
     },
 
+    mostrar_tipos_documentos() {
+      axios
+        .get(this.url + "tipos_documentos", {
+          headers: { token: this.token },
+        })
+        .then((response) => {
+          let datos = response.data.info;
+          for (let i in datos) {
+            let temp = { value: "", text: "" };
+            temp.value = datos[i].nombre;
+            temp.text = datos[i].nombre;
+            this.lista_documentos.push(temp);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     crear_usuario() {
-      if (this.usuario.id.length > 0 && this.usuario.nombre.length > 0 && this.usuario.apellido.length > 0
-        && this.usuario.correo.length > 0 && this.usuario.clave.length > 0) {
+      if (
+        this.usuario.documento.length > 0 &&
+        this.usuario.nombre.length > 0 &&
+        this.usuario.apellidos.length > 0 &&
+        this.usuario.correo.length > 0 &&
+        this.usuario.celular.length > 0 &&
+        this.usuario.rol != 0 &&
+        this.usuario.clave.length > 0
+      ) {
         axios
-          .post(this.url + "users", this.usuario, {
+          .post(this.url + "usuarios", this.usuario, {
             headers: { token: this.token },
           })
           .then((response) => {
             this.mostrar_usuarios();
             console.log(response);
-            axios
-              .post(this.url + "emails/account", this.usuario, {
-                headers: { token: this.token },
-              })
-              .then((response) => console.log(response))
-              .catch((error) => console.log(error));
+
             this.usuario = {
               tipo_documento: "",
-              id: "",
+              documento: "",
               nombre: "",
-              apellido: "",
-              edad: 0,
+              apellidos: "",
+              celular: "",
               correo: "",
-              clave: "",
-              ciudad: "",
-              ocupacion: null,
               rol: 0,
+              clave: "",
               acciones: true,
             };
           })
@@ -186,12 +209,12 @@ export default {
     },
     eliminar_usuario({ item }) {
       axios
-        .delete(`${this.url}users/${item.id}`, {
+        .delete(`${this.url}usuarios/${item.documento}`, {
           headers: { token: this.token },
         })
         .then((response) => {
           let position = this.lista_usuarios.findIndex(
-            (usuario) => usuario.id == item.id
+            (usuario) => usuario.documento == item.documento
           );
           this.lista_usuarios.splice(position, 1);
         })
@@ -201,27 +224,24 @@ export default {
     },
 
     cargar_usuario({ item }) {
-      this.validacion_actualizar = true
+      this.validacion_actualizar = true;
       axios
-        .get(`${this.url}users/${item.id}`, {
+        .get(`${this.url}usuarios/${item.documento}`, {
           headers: { token: this.token },
         })
         .then((response) => {
           var datos = response.data.info;
+          console.log(response);
 
           this.inEdition = true;
           this.usuario.tipo_documento = datos[0].tipo_documento;
-          this.usuario.id = datos[0].id;
+          this.usuario.documento = datos[0].documento;
           this.usuario.nombre = datos[0].nombre;
-          this.usuario.apellido = datos[0].apellidos;
-          this.usuario.edad = datos[0].edad;
-          //this.usuario.clave = datos[0].clave;
+          this.usuario.apellidos = datos[0].apellidos;
+          this.usuario.celular = datos[0].celular;
           this.usuario.correo = datos[0].correo;
-          this.usuario.ciudad = datos[0].ciudad;
           this.usuario.rol = datos[0].rol;
-          this.usuario.ocupacion = datos[0].ocupacion;
           this.usuario.acciones = true;
-          this.usuario.primera_vez = datos[0].primera_vez;
         })
         .catch((error) => {
           console.log(error);
@@ -229,10 +249,16 @@ export default {
     },
 
     actualizar_usuario() {
-      if (this.usuario.id.length > 0 && this.usuario.nombre.length > 0 && this.usuario.apellido.length > 0
-        && this.usuario.correo.length > 0 && this.usuario.clave.length > 0) {
+      if (
+        this.usuario.documento.length > 0 &&
+        this.usuario.nombre.length > 0 &&
+        this.usuario.apellidos.length > 0 &&
+        this.usuario.correo.length > 0 &&
+        this.usuario.celular.length > 0 &&
+        this.usuario.rol != 0 
+      ) {
         axios
-          .put(`${this.url}users/${this.usuario.id}`, this.usuario, {
+          .put(`${this.url}usuarios/${this.usuario.documento}`, this.usuario, {
             headers: { token: this.token },
           })
           .then((response) => {
@@ -241,15 +267,13 @@ export default {
             this.inEdition = false;
             this.usuario = {
               tipo_documento: "",
-              id: "",
+              documento: "",
               nombre: "",
-              apellido: "",
-              edad: 0,
+              apellidos: "",
+              celular: "",
               correo: "",
-              clave: "",
-              ciudad: "",
-              ocupacion: null,
               rol: 0,
+              clave: "",
               acciones: true,
             };
             this.validacion_actualizar = false;
@@ -260,7 +284,6 @@ export default {
       } else {
         alert("LLene todos los campos correctamente");
       }
-      
     },
   },
 };

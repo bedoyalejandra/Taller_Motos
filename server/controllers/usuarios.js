@@ -63,9 +63,9 @@ let guardar_usuario = async (usuario) => {
 
 let ver_usuario = async () => {
   let _service = new ServicePG();
-  let sql = `SELECT  usuarios.tipo_documento, usuarios.documento, usuarios.nombre, usuarios.apellidos, usuarios.celular, usuarios.correo, roles.nombre as "rol" FROM usuarios INNER JOIN roles on usuarios.rol = roles.documento;`;
+  let sql = `SELECT  usuarios.tipo_documento, usuarios.documento, usuarios.nombre, usuarios.apellidos, usuarios.celular, usuarios.correo, roles.nombre as "rol" FROM usuarios INNER JOIN roles on usuarios.rol = roles.id;`;
   let respuesta = await _service.runSql(sql);
-  let result = respuesta.rows
+  let result = respuesta.rows;
   return result;
 };
 
@@ -88,7 +88,7 @@ let consultar_usuario = async (documento) => {
 let eliminar_usuario = (documento) => {
   let _service = new ServicePG();
   let sql = `DELETE FROM usuarios WHERE documento = $1`;
-  let values = [documento]
+  let values = [documento];
   let respuesta = _service.runSql(sql, values);
   return respuesta;
 };
@@ -110,27 +110,22 @@ let editar_usuario = async (usuario, documento) => {
     usuario.celular,
     usuario.correo,
     usuario.rol,
-    documento
-  ]
+    documento,
+  ];
   let respuesta = await _service.runSql(sql, values);
   return respuesta;
 };
 
 let editar_clave = async (clave, documento) => {
-  
   let _service = new ServicePG();
   let sql = `UPDATE usuarios set
                  clave = md5($1)
                  WHERE documento= $2`;
 
-  let values = [
-    clave.clave_nueva,
-    documento
-  ]
+  let values = [clave.clave_nueva, documento];
   let respuesta = await _service.runSql(sql, values);
   return respuesta;
 };
-
 
 module.exports = {
   validar_usuario,

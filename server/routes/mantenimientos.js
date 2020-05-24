@@ -1,63 +1,72 @@
 const express = require("express");
 const router = express.Router();
 
-const { validar_rol,
-    guardar_rol,
-    consultar_roles,
-    consultar_rol,
-    eliminar_rol,
-    editar_rol } = require("../controllers/roles");
+const {
+  validar_mantenimiento,
+  guardar_mantenimiento,
+  consultar_mantenimientos,
+  consultar_mantenimiento,
+  eliminar_mantenimiento,
+  editar_mantenimiento,
+} = require("../controllers/mantenimientos");
 
 /**
- * Obtener todos los roles
+ * Obtener todos los mantenimientos
  */
-router.get("/roles", (req, res) => {
-    consultar_roles()
-    .then(answerDB => {
-      let records = answerDB.rows;
-      res.send({ ok: true, info: records, mensaje: "Roles consultados" });
-    
-    })
-    .catch(error => {
-      res.send(error);
-    });
-    
+router.get("/mantenimientos", (req, res) => {
+  let info_mantenimiento = req.body;
+  console.log(info_mantenimiento);
+
+  if (req.body.id_mecanico) {
+    consultar_mantenimiento(info_mantenimiento)
+      .then((answerDB) => {
+        let records = answerDB.rows;
+        res.send({
+          ok: true,
+          info: records,
+          mensaje: "Mantenimiento consultado",
+        });
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+  } else {
+    consultar_mantenimientos()
+      .then((answerDB) => {
+        let records = answerDB.rows;
+        res.send({
+          ok: true,
+          info: records,
+          mensaje: "mantenimientos consultados",
+        });
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+  }
 });
 
 /**
- * Obtener un solo rol
+ * Guardar un mantenimiento
  */
-router.get("/roles/:id", (req, res) => {
-  let info_role = req.params.id;
-  consultar_rol(info_role)
-  .then(answerDB => {
-    let records = answerDB.rows;
-    res.send({ ok: true, info: records, mensaje: "Rol consultado" });
-  
-  })
-  .catch(error => {
-    res.send(error);
-  });
-  
-});
-
-/**
- * Guardar un rol
- */
-router.post("/roles", (req, res) => {
+router.post("/mantenimientos", (req, res) => {
   try {
     //Capturar el body desde la solicitud
-    let info_role = req.body;
+    let info_mantenimiento = req.body;
 
     // Valida la información, si hay un error se envia al catch
-    validar_rol(info_role);
+    validar_mantenimiento(info_mantenimiento);
 
-    // Guardar el rol en base de datos
-    guardar_rol(info_role)
-      .then(answerDB => {
-        res.send({ ok: true, mensaje: "Rol guardado", info: info_role });
+    // Guardar el mantenimiento en base de datos
+    guardar_mantenimiento(info_mantenimiento)
+      .then((answerDB) => {
+        res.send({
+          ok: true,
+          mensaje: "mantenimiento guardado",
+          info: info_mantenimiento,
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         res.send(error);
       });
 
@@ -65,57 +74,61 @@ router.post("/roles", (req, res) => {
   } catch (error) {
     res.send(error);
   }
-  
 });
 
 /**
- * Eliminar un rol
+ * Eliminar un mantenimiento
  */
-router.delete("/roles/:id", (req, res) => {
-    try {
-      //Capturar el body desde la solicitud
-      let info_role = req.params.id;
-  
-      // Elimina el rol en base de datos
-      eliminar_rol(info_role)
-        .then(answerDB => {
-          res.send({ ok: true, mensaje: "Rol eliminado", info: info_role });
-        })
-        .catch(error => {
-          res.send(error);
-        });
-  
-      // Responder
-    } catch (error) {
-      res.send(error);
-    }
-    
-  });
+router.delete("/mantenimientos", (req, res) => {
+  try {
+    //Capturar el body desde la solicitud
+    let info_mantenimiento = req.body;
+    console.log(info_mantenimiento + "info_mantenimiento");
 
-  /**
- * Actualizar un rol
- */
-router.put("/roles/:id", (req, res) => {
-    try {
-      //Capturar el body desde la solicitud
-      let id = req.params.id;
-      let info_role = req.body;
-  
-      // Actualiza el rol en base de datos
-      editar_rol(info_role, id)
-        .then(answerDB => {
-          res.send({ ok: true, mensaje: "Rol editado", info: info_role });
-        })
-        .catch(error => {
-          res.send(error);
+    // Elimina el mantenimiento en base de datos
+    eliminar_mantenimiento(info_mantenimiento)
+      .then((answerDB) => {
+        res.send({
+          ok: true,
+          mensaje: "Mantenimiento eliminado",
+          info: info_mantenimiento,
         });
-  
-      // Responder
-    } catch (error) {
-      res.send(error);
-    }
-    
-  });
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+
+    // Responder
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+/**
+ * Actualizar un mantenimiento
+ */
+router.put("/mantenimientos", (req, res) => {
+  try {
+    //Capturar el body desde la solicitud
+    let info_mantenimiento = req.body;
+
+    // Actualiza el mantenimiento en base de datos
+    editar_mantenimiento(info_mantenimiento)
+      .then((answerDB) => {
+        res.send({
+          ok: true,
+          mensaje: "Mantenimiento editado",
+          info: info_mantenimiento,
+        });
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+
+    // Responder
+  } catch (error) {
+    res.send(error);
+  }
+});
 
 module.exports = router;
-

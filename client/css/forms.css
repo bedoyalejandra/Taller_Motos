@@ -1,0 +1,83 @@
+.container {
+  margin-bottom: 30px;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: stretch;
+
+}
+
+.title {
+  font-family: "Oswald", sans-serif;
+  margin-left: 30px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #ffc400;
+}
+
+.subTitle {
+  margin-top: 30px;
+  font-family: "Oswald", sans-serif;
+  align-self: start;
+  font-size: 25px;
+  font-weight: bold;
+  color: #333A41;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+}
+.txtNav {
+  font-family: "Oswald", sans-serif;
+  margin: 20px;
+  font-size: 10px;
+  color: #333A41;
+}
+
+.hi {
+  color: white;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  font-family: "Oswald", sans-serif;
+  color: #333A41;
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+}
+
+
+.txtNavActive {
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  padding: 10px;
+
+  font-weight: bold;
+  color: #333A41;
+}
+
+li a:hover {
+  color: #000;
+}
+ a:hover {
+  color: #ffc400;
+}

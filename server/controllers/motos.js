@@ -132,7 +132,7 @@ let editar_moto = async (moto, placa) => {
                  nro_soat = $8,
                  vencimiento_soat = $9,
                  nro_tecnomecanica = $10,
-                 vencimiento_tecnomecanica = $11,
+                 vencimiento_tecnomecanica = $11
                  WHERE placa= $12`;
 
   let values = [
