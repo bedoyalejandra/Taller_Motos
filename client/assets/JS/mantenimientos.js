@@ -91,8 +91,6 @@ export default {
       let rol = localStorage.getItem("rol");
       if (rol == 2) {
         this.showAdmin = true;
-      } else {
-        this.showTable = true;
       }
       axios
         .get(url, { headers: { token } })

@@ -112,7 +112,7 @@ export default {
       if(rol == 2){
         this.showAdmin = true
       }else{
-        this.$router.push("/");
+        this.$router.push("/403");
       }
       axios
         .get(url, { headers: { token } })
@@ -120,7 +120,7 @@ export default {
         .catch((error) => {
           console.log(error);
           this.$router.push("/");
-        });
+        })
     },
 
     mostrar_usuarios() {

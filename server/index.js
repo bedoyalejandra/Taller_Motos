@@ -15,6 +15,7 @@ const ruta_motos = require("./routes/motos");
 const ruta_roles = require("./routes/roles");
 const ruta_tipos_documentos = require("./routes/tipos_documentos");
 const ruta_mantenimientos = require("./routes/mantenimientos");
+const ruta_consolidados = require("./routes/consolidados");
 const ruta_login = require("./routes/autenticacion");
 
 app.use(vs, ruta_login);
@@ -23,6 +24,8 @@ app.use(vs, ruta_roles);
 app.use(vs, ruta_motos);
 app.use(vs, ruta_usuarios);
 app.use(vs, ruta_mantenimientos);
+app.use(vs, ruta_consolidados);
+
 
 app.use('/', (req, res) => {
   res.status(404).send({
