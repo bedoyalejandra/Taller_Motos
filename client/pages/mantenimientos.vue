@@ -15,16 +15,21 @@
             MI MOTO
           </div>
         </a>
+
+        <b-navbar-nav class="ml-auto">
+          <a href="/">
+            <b-icon icon="x-circle-fill" variant="warning" font-scale="2"></b-icon>
+          </a>
+        </b-navbar-nav>
       </b-navbar>
+
       <div>
         <b-navbar type="dark" variant="warning">
           <ul>
-            <li><a href="usuarios">Usuarios</a></li>
+            <li v-show="showAdmin"><a href="usuarios">Usuarios</a></li>
             <li><a href="motos">Motos</a></li>
             <li><div class="txtNavActive">Mantenimientos</div></li>
-            <b-form-row v-show="showAdmin">
-              <li><a href="consolidados">Consolidados</a></li>
-            </b-form-row>
+            <li v-show="showAdmin"><a href="consolidados">Consolidados</a></li>
           </ul>
         </b-navbar>
       </div>
@@ -41,7 +46,11 @@
           </div>
           <br />
 
-          <b-form action="javascript:void(0)" @submit="crear_mantenimiento()">
+          <b-form
+            action="javascript:void(0)"
+            @submit="crear_mantenimiento()"
+            v-show="showAdmin || inEdition"
+          >
             <b-form-group @submit.stop.prevent label="Placa" label-for="placa">
               <b-form-input
                 class="form-control"
@@ -149,6 +158,7 @@
                 >Modificar</b-button
               >
               <b-button
+                v-show="showAdmin"
                 variant="outline-warning"
                 size="sm"
                 @click="eliminar_mantenimiento(row)"

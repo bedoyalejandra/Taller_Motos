@@ -15,16 +15,19 @@
             MI MOTO
           </div>
         </a>
+                <b-navbar-nav class="ml-auto">
+          <a href="/">
+            <b-icon icon="x-circle-fill" variant="warning" font-scale="2"></b-icon>
+          </a>
+        </b-navbar-nav>
       </b-navbar>
       <div>
         <b-navbar type="dark" variant="warning">
           <ul>
-            <li><a href="usuarios">Usuarios</a></li>
+            <li v-show="showAdmin" ><a href="usuarios">Usuarios</a></li>
             <li><div class="txtNavActive">Motos</div></li>
             <li><a href="mantenimientos">Mantenimientos</a></li>
-            <b-form-row v-show="showAdmin">
-              <li><a href="consolidados">Consolidados</a></li>
-            </b-form-row>
+              <li v-show="showAdmin"><a href="consolidados">Consolidados</a></li>
           </ul>
         </b-navbar>
       </div>

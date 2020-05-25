@@ -111,12 +111,15 @@ export default {
       let rol = localStorage.getItem("rol");
       if(rol == 2){
         this.showAdmin = true
+      }else{
+        this.$router.push("/");
       }
       axios
         .get(url, { headers: { token } })
         .then((response) => {})
         .catch((error) => {
           console.log(error);
+          this.$router.push("/");
         });
     },
 

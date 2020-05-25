@@ -18,11 +18,11 @@ const ruta_mantenimientos = require("./routes/mantenimientos");
 const ruta_login = require("./routes/autenticacion");
 
 app.use(vs, ruta_login);
-app.use(vs, ruta_mantenimientos);
 app.use(vs, ruta_tipos_documentos);
 app.use(vs, ruta_roles);
 app.use(vs, ruta_motos);
 app.use(vs, ruta_usuarios);
+app.use(vs, ruta_mantenimientos);
 
 app.use('/', (req, res) => {
   res.status(404).send({

@@ -9,20 +9,19 @@
     </b-container>
 
     <div class="container">
-      <a href="usuarios">
-        <div class="container2">
-          <b-img
-            src="../images/usuarios.png"
-            fluid
-            alt="Fluid image"
-            width="200px"
-          ></b-img>
-          <div class="titleY">
-            USUARIOS
+        <a href="usuarios">
+          <div class="container2" v-show="showAdmin">
+            <b-img
+              src="../images/usuarios.png"
+              fluid
+              alt="Fluid image"
+              width="200px"
+            ></b-img>
+            <div class="titleY">
+              USUARIOS
+            </div>
           </div>
-        </div>
-      </a>
-
+        </a>
       <a href="motos">
         <div class="container2">
           <b-img
@@ -52,9 +51,8 @@
           </div>
         </div>
       </a>
-      <b-form-row v-show="showAdmin">
         <a href="consolidados">
-          <div class="container2">
+          <div class="container2" v-show="showAdmin">
             <b-img
               src="../images/consolidado.png"
               fluid
@@ -66,7 +64,6 @@
             </div>
           </div>
         </a>
-      </b-form-row>
     </div>
   </div>
 </template>

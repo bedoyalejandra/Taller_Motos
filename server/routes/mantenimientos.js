@@ -14,9 +14,27 @@ const {
  * Obtener todos los mantenimientos
  */
 router.get("/mantenimientos", (req, res) => {
-  let info_mantenimiento = req.body;
-  console.log(info_mantenimiento);
 
+    consultar_mantenimientos()
+      .then((answerDB) => {
+        let records = answerDB.rows;
+        res.send({
+          ok: true,
+          info: records,
+          mensaje: "mantenimientos consultados",
+        });
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+  
+});
+
+/**
+ * Obtener un mantenimiento
+ */
+router.post("/mantenimiento", (req, res) => {
+  let info_mantenimiento = req.body;
   if (req.body.id_mecanico) {
     consultar_mantenimiento(info_mantenimiento)
       .then((answerDB) => {
@@ -31,20 +49,10 @@ router.get("/mantenimientos", (req, res) => {
         res.send(error);
       });
   } else {
-    consultar_mantenimientos()
-      .then((answerDB) => {
-        let records = answerDB.rows;
-        res.send({
-          ok: true,
-          info: records,
-          mensaje: "mantenimientos consultados",
-        });
-      })
-      .catch((error) => {
-        res.send(error);
-      });
+    Console.log("Ingrese los datos del mantenimiento a buscar")
   }
 });
+
 
 /**
  * Guardar un mantenimiento
@@ -111,7 +119,6 @@ router.put("/mantenimientos", (req, res) => {
   try {
     //Capturar el body desde la solicitud
     let info_mantenimiento = req.body;
-
     // Actualiza el mantenimiento en base de datos
     editar_mantenimiento(info_mantenimiento)
       .then((answerDB) => {

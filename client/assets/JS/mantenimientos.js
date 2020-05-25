@@ -89,8 +89,10 @@ export default {
       let token = localStorage.getItem("token");
       this.token = token;
       let rol = localStorage.getItem("rol");
-      if(rol == 2){
-        this.showAdmin = true
+      if (rol == 2) {
+        this.showAdmin = true;
+      } else {
+        this.showTable = true;
       }
       axios
         .get(url, { headers: { token } })
@@ -165,26 +167,15 @@ export default {
     },
 
     cargar_mantenimiento({ item }) {
-      console.log(item + "item");
-
-      console.log("placa " + item.placa);
-      console.log("id_mecanico " + item.id_mecanico);
-      console.log("fecha " + item.fecha);
-
-      let permiso = Object.assign({}, item);
-
-      console.log(permiso + "permiso");
-
       this.mantenimientoTemp.placa = item.placa;
       this.mantenimientoTemp.id_mecanico = item.id_mecanico;
       this.mantenimientoTemp.fecha = item.fecha;
-
-      console.log(this.mantenimientoTemp + "cargar");
+      this.mantenimientoTemp.trabajos_realizados = item.trabajos_realizados;
+      this.mantenimientoTemp.horas_invertidas = item.horas_invertidas;
 
       this.validacion_actualizar = true;
-      
       axios
-        .get(`${this.url}mantenimientos`, this.mantenimientoTemp, {
+        .post(`${this.url}mantenimiento`, this.mantenimientoTemp, {
           headers: { token: this.token },
         })
         .then((response) => {
@@ -202,8 +193,7 @@ export default {
           this.mantenimiento.id_mecanico_temp = datos[0].id_mecanico;
           this.mantenimiento.placa_temp = datos[0].placa;
           this.mantenimiento.fecha_temp = datos[0].fecha;
-
-          console.log(this.mantenimiento);
+    
         })
         .catch((error) => {
           console.log(error);
