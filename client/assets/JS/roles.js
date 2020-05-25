@@ -15,6 +15,7 @@ export default {
       message: "CREACIÓN DE ROLES",
       inEdition: false,
       showTable: false,
+      showAdmin: false,
       validacion: "",
       rol: {
         id: "",
@@ -54,20 +55,15 @@ export default {
       let url = config.url_api + "verify";
       let token = localStorage.getItem("token");
       this.token = token;
+      let rol = localStorage.getItem("rol");
+      if(rol == 2){
+        this.showAdmin = true
+      }
       axios
-        .post(
-          url,
-          {
-            Modulo: "Gestión de Roles",
-          },
-          { headers: { token: token } }
-        )
-        .then((response) => {
-          console.log(response);
-        })
+        .get(url, { headers: { token } })
+        .then((response) => {})
         .catch((error) => {
           console.log(error);
-          this.$router.push("/login");
         });
     },
     mostrar_roles() {

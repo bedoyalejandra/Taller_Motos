@@ -22,7 +22,9 @@
             <li><a href="usuarios">Usuarios</a></li>
             <li><div class="txtNavActive">Motos</div></li>
             <li><a href="mantenimientos">Mantenimientos</a></li>
-            <li><a href="consolidados">Consolidados</a></li>
+            <b-form-row v-show="showAdmin">
+              <li><a href="consolidados">Consolidados</a></li>
+            </b-form-row>
           </ul>
         </b-navbar>
       </div>
@@ -45,7 +47,7 @@
                 class="form-control"
                 v-model="moto.placa"
                 placeholder="Ingrese la placa del vehículo"
-                :disabled = inEdition
+                :disabled="inEdition"
                 id="placa"
               />
 
@@ -190,7 +192,7 @@
               >
             </b-form-group>
 
-                <b-form-group
+            <b-form-group
               label="Chequeo técnico mecánico"
               label-for="nro_tecnomecanica"
               @submit.stop.prevent
@@ -218,7 +220,8 @@
                 class="mb-2"
               ></b-form-datepicker>
 
-              <b-form-invalid-feedback :state="validar_vencimiento_tecnomecanica"
+              <b-form-invalid-feedback
+                :state="validar_vencimiento_tecnomecanica"
                 >Campo obligatorio</b-form-invalid-feedback
               >
             </b-form-group>

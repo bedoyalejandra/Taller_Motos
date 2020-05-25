@@ -52,21 +52,23 @@
           </div>
         </div>
       </a>
-
-      <a href="consolidados">
-        <div class="container2">
-          <b-img
-            src="../images/consolidado.png"
-            fluid
-            alt="Fluid image"
-            width="200px"
-          ></b-img>
-          <div class="titleY">
-            CONSOLIDADOS
+      <b-form-row v-show="showAdmin">
+        <a href="consolidados">
+          <div class="container2">
+            <b-img
+              src="../images/consolidado.png"
+              fluid
+              alt="Fluid image"
+              width="200px"
+            ></b-img>
+            <div class="titleY">
+              CONSOLIDADOS
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </b-form-row>
     </div>
   </div>
 </template>
+<script src="../assets/JS/home.js" />
 <style src="../css/home.css" />

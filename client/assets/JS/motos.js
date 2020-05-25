@@ -8,7 +8,7 @@ Vue.use(BootstrapVueIcons);
 
 export default {
   beforeMount() {
-    //this.cargar_pagina();
+    this.cargar_pagina();
   },
   data() {
     return {
@@ -16,7 +16,7 @@ export default {
       inEdition: false,
       showTable: false,
       show: false,
-      showAdmin: true,
+      showAdmin: false,
       validacion_actualizar: "",
       token: "",
       url: "",
@@ -119,6 +119,10 @@ export default {
       let url = config.url_api + "verify";
       let token = localStorage.getItem("token");
       this.token = token;
+      let rol = localStorage.getItem("rol");
+      if(rol == 2){
+        this.showAdmin = true
+      }
       axios
         .get(url, { headers: { token } })
         .then((response) => {})

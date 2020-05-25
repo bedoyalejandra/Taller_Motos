@@ -12,9 +12,7 @@ export default {
   },
   data() {
     return {
-      message: "CREACIÓN DE ROLES",
-      showAdmin: true
- 
+      showAdmin: false,
     };
   },
   created() {
@@ -34,22 +32,18 @@ export default {
     cargar_pagina() {
       let url = config.url_api + "verify";
       let token = localStorage.getItem("token");
+      let rol = localStorage.getItem("rol");
+      if(rol == 2){
+        this.showAdmin = true
+      }
       this.token = token;
       axios
-        .post(
-          url,
-          {
-            Modulo: "Gestión de Roles",
-          },
-          { headers: { token: token } }
-        )
-        .then((response) => {
-          console.log(response);
-        })
+        .get(url, { headers: { token } })
+        .then((response) => {})
         .catch((error) => {
           console.log(error);
-          //this.$router.push("/login");
         });
+
     },
   
   },

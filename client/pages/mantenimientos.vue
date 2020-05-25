@@ -20,9 +20,11 @@
         <b-navbar type="dark" variant="warning">
           <ul>
             <li><a href="usuarios">Usuarios</a></li>
-            <li><a href="mantenimientos">Motos</a></li>
+            <li><a href="motos">Motos</a></li>
             <li><div class="txtNavActive">Mantenimientos</div></li>
-            <li><a href="consolidados">Consolidados</a></li>
+            <b-form-row v-show="showAdmin">
+              <li><a href="consolidados">Consolidados</a></li>
+            </b-form-row>
           </ul>
         </b-navbar>
       </div>

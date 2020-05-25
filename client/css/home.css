@@ -45,3 +45,25 @@ a:hover {
   height: 300px;
   background-color: #fff;
 }
+
+.titleForm {
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  color: #ffc400;
+}
+
+.textWarning {
+  font-family: "Oswald", sans-serif;
+  font-size: 15px;
+  color: #e2af05;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: stretch;
+  color: #ffc400;
+}

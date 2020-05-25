@@ -22,7 +22,9 @@
             <li><div class="txtNavActive">Usuarios</div></li>
             <li><a href="motos">Motos</a></li>
             <li><a href="mantenimientos">Mantenimientos</a></li>
-            <li><a href="consolidados">Consolidados</a></li>
+            <b-form-row v-show="showAdmin">
+              <li><a href="consolidados">Consolidados</a></li>
+            </b-form-row>
           </ul>
         </b-navbar>
       </div>

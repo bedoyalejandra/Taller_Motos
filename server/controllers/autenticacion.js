@@ -20,6 +20,15 @@ let validar_datos = (usuario) => {
 
 }
 
+let consultar_usuario = async (usuario) => {
+  let _service = new ServicePG();
+  let sql = `SELECT * FROM usuarios WHERE documento = $1 AND clave = md5($2)`;
+  let values = [usuario.documento, usuario.clave]
+  let respuesta = await _service.runSql(sql, values);
+  return respuesta;
+};
+
+
   let generar_token = (usuario) =>{
     delete usuario.clave;
     let token = jwt.sign(usuario, SECRET_KEY, {expiresIn: "4h"});
@@ -34,4 +43,4 @@ let validar_datos = (usuario) => {
     return jwt.verify(token, SECRET_KEY);
   }
 
-module.exports = { validar_datos, generar_token, validar_token, descifrar_token };
+module.exports = { validar_datos, generar_token, validar_token, descifrar_token, consultar_usuario };
