@@ -64,7 +64,7 @@ let consultar_mantenimiento = async (mantenimiento) => {
 
 let eliminar_mantenimiento = (mantenimiento) => {
   let _service = new ServicePG();
-  console.log(mantenimiento + " eliminar");
+  console.log(mantenimiento);
   let sql = `DELETE FROM mantenimientos WHERE id_mecanico = $1 AND
                                               placa = $2 AND
                                               fecha = $3`;

@@ -18,7 +18,11 @@
 
         <b-navbar-nav class="ml-auto">
           <a href="/">
-            <b-icon icon="x-circle-fill" variant="warning" font-scale="2"></b-icon>
+            <b-icon
+              icon="x-circle-fill"
+              variant="warning"
+              font-scale="2"
+            ></b-icon>
           </a>
         </b-navbar-nav>
       </b-navbar>
@@ -51,34 +55,23 @@
             @submit="crear_mantenimiento()"
             v-show="showAdmin || inEdition"
           >
-            <b-form-group @submit.stop.prevent label="Placa" label-for="placa">
-              <b-form-input
-                class="form-control"
+            <b-form-group label="Placa" @submit.stop.prevent>
+              <b-form-select
                 v-model="mantenimiento.placa"
-                placeholder="Ingrese la placa del vehículo"
-                id="placa"
-              />
-
+                placeholder="Seleccione la placa del vehículo"
+                :options="lista_vehiculos"
+              ></b-form-select>
               <b-form-invalid-feedback :state="validar_placa"
                 >Campo obligatorio</b-form-invalid-feedback
               >
-              <b-form-invalid-feedback :state="si_existe" v-show="show"
-                >Ya existe una mantenimiento con esta
-                placa</b-form-invalid-feedback
-              >
             </b-form-group>
 
-            <b-form-group
-              @submit.stop.prevent
-              label="Mecánico"
-              label-for="id_mecanico"
-            >
-              <b-form-input
-                class="form-control"
+            <b-form-group label="Mecanico" @submit.stop.prevent>
+              <b-form-select
                 v-model="mantenimiento.id_mecanico"
-                placeholder="Ingrese el documento del mecánico"
-                id="id_mecanico"
-              />
+                placeholder="Seleccione el mécanico que va a realizar el mantenimiento"
+                :options="lista_mecanicos"
+              ></b-form-select>
               <b-form-invalid-feedback :state="validar_id_mecanico"
                 >Campo obligatorio</b-form-invalid-feedback
               >
@@ -118,6 +111,9 @@
               />
             </b-form-group>
 
+            <b-form-invalid-feedback :state="si_existe" v-show="show"
+              >Ya existe una mantenimiento con estos datos
+            </b-form-invalid-feedback>
             <br />
 
             <b-button type="submit" block variant="warning" v-if="!inEdition"

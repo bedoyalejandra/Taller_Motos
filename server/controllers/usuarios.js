@@ -85,6 +85,14 @@ let consultar_usuario = async (documento) => {
   return respuesta;
 };
 
+
+let consultar_mecanicos = async () => {
+  let _service = new ServicePG();
+  let sql = `SELECT usuarios.tipo_documento, usuarios.documento, usuarios.nombre, usuarios.apellidos, usuarios.celular, usuarios.correo, usuarios.rol FROM usuarios WHERE usuarios.rol = 1`;
+  let answer = await _service.runSql(sql);
+  return answer;
+};
+
 let eliminar_usuario = (documento) => {
   let _service = new ServicePG();
   let sql = `DELETE FROM usuarios WHERE documento = $1`;
@@ -136,4 +144,5 @@ module.exports = {
   editar_usuario,
   ver_usuario,
   editar_clave,
+  consultar_mecanicos
 };

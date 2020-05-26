@@ -8,7 +8,8 @@ const { validar_usuario,
   eliminar_usuario,
   editar_usuario,
   editar_clave,
-  ver_usuario } = require("../controllers/usuarios");
+  ver_usuario,
+  consultar_mecanicos } = require("../controllers/usuarios");
 
 /**
  * Obtener todos los usuarios
@@ -18,6 +19,22 @@ router.get("/usuarios", (req, res) => {
     .then(answerDB => {
       let records = answerDB.rows;
       res.send({ ok: true, info: records, mensaje: "Usuarios consultados" });
+    
+    })
+    .catch(error => {
+      res.send(error);
+    });
+    
+});
+
+/**
+ * Obtener todos los mecanicos
+ */
+router.get("/usuarios/mecanicos", (req, res) => {
+  consultar_mecanicos()
+    .then(answerDB => {
+      let records = answerDB.rows;
+      res.send({ ok: true, info: records, mensaje: "Mecanicos consultados" });
     
     })
     .catch(error => {

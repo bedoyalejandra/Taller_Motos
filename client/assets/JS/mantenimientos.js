@@ -36,11 +36,17 @@ export default {
         horas_invertidas: 0,
         acciones: true,
       },
+
       lista_mantenimientos: [{}],
+      lista_vehiculos: [{ value: null, text: "Seleccione un vehículo", disabled: true }],
+      lista_mecanicos: [{ value: null, text: "Seleccione un mecánico", disabled: true }]
+    
     };
   },
   created() {
     this.guardar_token();
+    this.mostrar_vehiculos();
+    this.mostrar_mecanicos();
     this.mostrar_mantenimientos();
   },
   computed: {
@@ -120,6 +126,45 @@ export default {
         });
     },
 
+    mostrar_vehiculos() {
+      axios
+        .get(this.url + "motos", {
+          headers: { token: this.token },
+        })
+        .then((response) => {
+          let datos = response.data.info;
+          for (let i in datos) {
+            let temp = { value: "", text: "" };
+            temp.value = datos[i].placa;
+            temp.text = datos[i].placa;
+            this.lista_vehiculos.push(temp);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    mostrar_mecanicos() {
+      axios
+        .get(this.url + "usuarios/mecanicos", {
+          headers: { token: this.token },
+        })
+        .then((response) => {
+          let datos = response.data.info;
+          for (let i in datos) {
+            let temp = { value: "", text: "" };
+            temp.value = datos[i].documento;
+            let nombre = datos[i].documento + " - " + datos[i].nombre + " "+ datos[i].apellidos;
+            temp.text = nombre;
+            this.lista_mecanicos.push(temp);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     crear_mantenimiento() {
       if (
         this.mantenimiento.placa.length > 0 &&
@@ -153,11 +198,11 @@ export default {
     eliminar_mantenimiento({ item }) {
       console.log(item + "item");
       axios
-        .delete(this.url + "mantenimientos", item, {
+        .post(this.url + "eliminar_mantenimiento", item, {
           headers: { token: this.token },
         })
         .then((response) => {
-          //this.mostrar_mantenimientos();
+          this.mostrar_mantenimientos();
         })
         .catch((error) => {
           console.log(error);

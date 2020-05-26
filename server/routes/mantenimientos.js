@@ -87,11 +87,10 @@ router.post("/mantenimientos", (req, res) => {
 /**
  * Eliminar un mantenimiento
  */
-router.delete("/mantenimientos", (req, res) => {
+router.post("/eliminar_mantenimiento", (req, res) => {
   try {
     //Capturar el body desde la solicitud
     let info_mantenimiento = req.body;
-    console.log(info_mantenimiento + "info_mantenimiento");
 
     // Elimina el mantenimiento en base de datos
     eliminar_mantenimiento(info_mantenimiento)
