@@ -15,19 +15,23 @@
             MI MOTO
           </div>
         </a>
-                <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto">
           <a href="/">
-            <b-icon icon="x-circle-fill" variant="warning" font-scale="2"></b-icon>
+            <b-icon
+              icon="x-circle-fill"
+              variant="warning"
+              font-scale="2"
+            ></b-icon>
           </a>
         </b-navbar-nav>
       </b-navbar>
       <div>
         <b-navbar type="dark" variant="warning">
           <ul>
-            <li v-show="showAdmin" ><a href="usuarios">Usuarios</a></li>
+            <li v-show="showAdmin"><a href="usuarios">Usuarios</a></li>
             <li><div class="txtNavActive">Motos</div></li>
             <li><a href="mantenimientos">Mantenimientos</a></li>
-              <li v-show="showAdmin"><a href="consolidados">Consolidados</a></li>
+            <li v-show="showAdmin"><a href="consolidados">Consolidados</a></li>
           </ul>
         </b-navbar>
       </div>
@@ -37,7 +41,7 @@
       <b-container>
         <b-col>
           <div class="subTitle">
-            <b-icon icon="person-fill" font-scale="1.8"></b-icon>
+            <b-icon icon="app" font-scale="1.8"></b-icon>
             <div class="hi">**</div>
 
             {{ message }}

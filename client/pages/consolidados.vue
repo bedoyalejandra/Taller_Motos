@@ -43,7 +43,7 @@
       <b-container>
         <b-col>
           <div class="subTitle">
-            <b-icon icon="person-fill" font-scale="1.8"></b-icon>
+            <b-icon icon="card-heading" font-scale="1.8"></b-icon>
             <div class="hi">*</div>
 
             {{ message }}
